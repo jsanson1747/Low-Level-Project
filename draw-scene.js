@@ -55,7 +55,7 @@ function drawScene(gl, programInfo, buffers) {
     {
         const offset = 0;
         const vertexCount = 4;
-        gl.drawArrays(gl.TRIANGE_STRIP, offset, vertexCount);
+        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
     }
 } //end drawScene
 
