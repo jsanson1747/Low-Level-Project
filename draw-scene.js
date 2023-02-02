@@ -1,23 +1,43 @@
 //draw-scene.js
 
-let positionXDiff = 0.02
-let positionYDiff = 0.02
+let positionXDiff = 0.02;
+let positionYDiff = 0.02;
 let positionX = 0;
 let positionY = 0;
+
+let sizeXDiff = 0.01;
+let sizeYDiff = 0.01;
+let sizeZDiff = 0.01;
+let sizeX = 1;
+let sizeY = 1;
+let sizeZ = 1;
 
 function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     positionX += positionXDiff;
     positionY += positionYDiff
     if (positionX >= 8.5 || positionX <= -8.5) {
         positionXDiff *= -1;
-    }
+    } //end if
     if (positionY >= 3.5 || positionY <= -3.5) {
         positionYDiff *= -1;
-    }
+    } //end if
+
+    sizeX += sizeXDiff;
+    sizeY += sizeYDiff;
+    sizeZ += sizeZDiff;
+    if (sizeX >= 3 || sizeX <= 0.4) {
+        sizeXDiff *= -1;
+    } //end if
+    if (sizeY >= 3 || sizeY <= 0.4) {
+        sizeYDiff *= -1;
+    } //end if
+    if (sizeZ >= 3 || sizeZ <= 0.4) {
+        sizeZDiff *= -1;
+    } //end if
 
     resizeCanvasToDisplaySize(gl.canvas);
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
-    gl.clearColor(0.0, 0.0, 0.0, 1.0); //Clear to black, fully opaque
+    gl.clearColor(0.15, 0.15, 0.15, 1.0); //Clear to black, fully opaque
     gl.clearDepth(1.0); //Clear everything
     gl.enable(gl.DEPTH_TEST); //Enable depth testing
     gl.depthFunc(gl.LEQUAL); //Near things obscure far things
@@ -53,20 +73,26 @@ function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     mat4.rotate(
         modelViewMatrix, //destination matrix
         modelViewMatrix, //matrix to rotate
-        cubeRotation * 0, //amount to rotate in radians
+        cubeRotation * 3, //amount to rotate in radians
         [0, 0, 1] //axis to rotate around (Z)
     );
     mat4.rotate(
         modelViewMatrix, //destination matrix
         modelViewMatrix, //matrix to rotate
-        cubeRotation * 0.7, //amount to rotate in radians
+        cubeRotation * 0.5, //amount to rotate in radians
         [0, 1, 0] //axis to rotate around (Y)
     );
     mat4.rotate(
         modelViewMatrix, //destination matrix
         modelViewMatrix, //matrix to rotate
-        cubeRotation * 0.3, //amount to rotate in radians
+        cubeRotation * 2, //amount to rotate in radians
         [1, 0, 0] //axis to rotate around (X)
+    );
+
+    mat4.scale(
+        modelViewMatrix,
+        modelViewMatrix,
+        [sizeX, sizeY, sizeZ]
     );
 
     const normalMatrix = mat4.create();
