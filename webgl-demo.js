@@ -2,6 +2,9 @@
 import { initBuffers } from "./init-buffers.js";
 import { drawScene } from "./draw-scene.js";
 
+let squareRotation = 0.0;
+let deltaTime = 0;
+
 main();
 
 function main() {
@@ -68,9 +71,19 @@ function main() {
     //Here's where we call the routine that builds all the objects we'll be drawing
     const buffers = initBuffers(gl);
     
-    //Draw the scene
-    drawScene(gl, programInfo, buffers);
+    //Draw the scene repeatedly
+    let then = 0;
+    function render(now) {
+        now *= 0.001; //convert to seconds
+        deltaTime = now - then;
+        then = now;
 
+        drawScene(gl, programInfo, buffers, squareRotation);
+        squareRotation += deltaTime;
+
+        requestAnimationFrame(render);
+    } //end render
+    requestAnimationFrame(render);
 } //end main
 
 //Initialize a shader program, so WebGl knows how to draw our data
