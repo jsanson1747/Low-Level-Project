@@ -15,7 +15,7 @@ Thanks to the portability of WebGL, my project can be run directly in the web br
 **NOTE:** It needs to be run on localhost in order for WebGL to run.
 
 ## What I learned
-While I followed the tutorial for the bulk of this implementation, I feel like I now have a better grasp about how WebGL uses the graphics card to render detailed 3D objects. I tried to keep copy and pasting to a minimum so I would get more from writing the code line by line. However, I did compy and past some of it to speed up the process. I feel like I was able to demonstrate my understanding by adding to the functionality of the tutorial and doing so helped me understand some of the inner working of WebGL better. 
+While I followed the tutorial for the bulk of this implementation, I feel like I now have a better grasp about how WebGL uses the graphics card to render detailed 3D objects. I tried to keep copy and pasting to a minimum so I would get more from writing the code line by line. However, I did copy and paste some of it to speed up the process. I feel like I was able to demonstrate my understanding by adding to the functionality of the tutorial and doing so helped me better understand some of the inner workings of WebGL. 
 
 ## Images
 Here are some screenshots from the live demo:
