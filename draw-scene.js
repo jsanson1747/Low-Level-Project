@@ -5,7 +5,7 @@ let positionYDiff = 0.02
 let positionX = 0;
 let positionY = 0;
 
-function drawScene(gl, programInfo, buffers, cubeRotation) {
+function drawScene(gl, programInfo, buffers, texture, cubeRotation) {
     positionX += positionXDiff;
     positionY += positionYDiff
     if (positionX >= 8.5 || positionX <= -8.5) {
@@ -77,7 +77,7 @@ function drawScene(gl, programInfo, buffers, cubeRotation) {
     setPositionAttribute(gl, buffers, programInfo);
     
     //Set the colors
-    setColorAttribute(gl, buffers, programInfo);
+    setTextureAttribute(gl, buffers, programInfo);
     
     // Tell WebGL which indices to use to index the vertices
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buffers.indices);
@@ -107,6 +107,15 @@ function drawScene(gl, programInfo, buffers, cubeRotation) {
         normalMatrix
     );
 
+    // Tell WebGL we want to affect texture unit 0
+    gl.activeTexture(gl.TEXTURE0);
+
+    // Bind the texture to texture unit 0
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+
+    // Tell the shader we bound the texture to texture unit 0
+    gl.uniform1i(programInfo.uniformLocations.uSampler, 0);
+
     {   
         const vertexCount = 36;
         const type = gl.UNSIGNED_SHORT;
@@ -114,6 +123,25 @@ function drawScene(gl, programInfo, buffers, cubeRotation) {
         gl.drawElements(gl.TRIANGLES, vertexCount, type, offset);
     }
 } //end drawScene
+
+// tell webgl how to pull out the texture coordinates from buffer
+function setTextureAttribute(gl, buffers, programInfo) {
+    const num = 2; // every coordinate composed of 2 values
+    const type = gl.FLOAT; // the data in the buffer is 32-bit float
+    const normalize = false; // don't normalize
+    const stride = 0; // how many bytes to get from one set to the next
+    const offset = 0; // how many bytes inside the buffer to start from
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffers.textureCoord);
+    gl.vertexAttribPointer(
+        programInfo.attribLocations.textureCoord,
+        num,
+        type,
+        normalize,
+        stride,
+        offset
+    );
+    gl.enableVertexAttribArray(programInfo.attribLocations.textureCoord);
+}
 
 function resizeCanvasToDisplaySize(canvas) {
     // Lookup the size the browser is displaying the canvas in CSS pixels.
